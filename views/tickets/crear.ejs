@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickets Gavillas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <style>
+        body {
+            font-size: 16px;
+        }
+
+        .title-and-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-and-button h5 {
+            margin: 0;
+        }
+
+        .btn-submit {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .color-btn {
+            background-color: #00a09d;
+        }
+
+        .custom-border {
+            padding: 8px;
+        }
+
+        .title-and-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-and-button h5 {
+            margin: 0;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .center-text {
+            text-align: center;
+        }
+
+        .main-content {
+            margin: 30px;
+        }
+
+        .btn-submit {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .color-btn {
+            background-color: #00a09d;
+        }
+
+        .color-head {
+            background-color: #875a7b;
+        }
+
+        .form-control,
+        .form-select {
+            font-size: 14px;
+        }
+
+        .form-container {
+            margin-top: 40px; 
+            display: flex;
+            max-height:fit-content;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+
+<body class="body">
+    <%- include('../navbar') %>
+    <div class="container mt-5">
+        <div class="custom-border row justify-content-center border rounded form-container">
+            <div class="m-3 custom-border col-md-10">
+                <form action="/tickets" method="POST">
+                    <div class="title-and-button d-flex justify-content-between align-items-start">
+                        <h5 class="text-left" style="color: dimgrey;">Registro de etiquetas fundas</h5>
+                        <input type="submit" class="btn color-btn text-white btn-submit text-right" value="Guardar datos">
+                    </div>
+                    <div class="p-4 text-white rounded-3"></div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="paca" class="form-label">Número de paca</label>
+                                    <input type="text" class="form-control form-control-sm" name="n_paca" required maxlength="15">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="clase" class="form-label">Clase</label>
+                                    <select class="form-select form-control-sm" name="clase" id="clase" required>
+                                        <option value="" disabled selected>Seleccione una opción</option>
+                                        <option value="CAPA" data-clase="CAPA">CAPA</option>
+                                        <option value="BANDA" data-clase="BANDA">BANDA</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="variedad" class="form-label">Variedad</label>
+                                    <select class="form-select form-control-sm" name="variedad" id="variedad" required>
+                                        <option value="" disabled selected>Seleccione una opción</option>
+                                        <% for (var i = 0; i < variedades.banda[0].Variedad.length; i++) { %>
+                                            <optgroup label="Banda">
+                                                <% var bandaVariedad = variedades.banda[0].Variedad[i]; %>
+                                                <option value="<%= bandaVariedad.nombre %>" data-gavillas="<%= bandaVariedad.hojas_fundas %>"><%= bandaVariedad.nombre %></option>
+                                            </optgroup>
+                                        <% } %>
+                                        <% for (var j = 0; j < variedades.capa[0].Variedad.length; j++) { %>
+                                            <optgroup label="Capa">
+                                                <% var capaVariedad = variedades.capa[0].Variedad[j]; %>
+                                                <option value="<%= capaVariedad.nombre %>" data-gavillas="<%= capaVariedad.hojas_fundas %>"><%= capaVariedad.nombre %></option>
+                                            </optgroup>
+                                        <% } %>                                    
+                                    </select>
+                                </div>
+                            </div>
+                        </div>       
+                        <div class="row" id="varietyDetails">
+                            <div class="col-md-4"> <br>
+                                <div class="form-group">
+                                    <label for="hojas_gavillas" class="form-label">Hojas por gavilla</label>
+                                    <input type="text" class="form-control form-control-sm" name="hojas_gavillas" id="hojas_gavillas" pattern="^[0-9]+$" title="Ingrese solo números" readonly> 
+                                    <span id="gavillas-funda-info" class="form-text"></span>
+                                </div>                                
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group"><br>
+                                    <label for="gavillas_funda" class="form-label">Gavillas por funda</label>
+                                    <input type="text" class="form-control form-control-sm" name="gavillas_funda" id="gavillas_funda" readonly> 
+                                    <span id="gavillas-funda-info" class="form-text"></span>
+                                </div>                                
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group"><br>
+                                    <label for="hojas_fundas" class="form-label">Hojas por funda</label>
+                                    <input type="text" class="form-control form-control-sm" name="hojas_fundas" id="hojas_fundas" pattern="^[0-9]+$" title="Ingrese solo números" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Campos para la variedad Sumatra tripa (ocultos al inicio) -->
+                        <div class="row">
+                            <div class="col-md-4" id="muestraGavillasSumatraField" style="display: none;"><br>
+                                <div class="form-group">
+                                    <label for="muestra_gavillas_sumatra" class="form-label">Muestra de gavillas (Sumatra)</label>
+                                    <input type="text" class="form-control form-control-sm" name="muestra_gavillas_sumatra" id="muestra_gavillas_sumatra" pattern="^[0-9]+$" title="Ingrese solo números" maxlength="3">
+                                </div>
+                            </div>
+                            <div class="col-md-4" id="gavillaFundaSumatraField" style="display: none;">
+                                <div class="form-group"><br>
+                                    <label for="gavilla_funda_sumatra" class="form-label">Gavilla por funda (Sumatra)</label>
+                                    <input type="text" class="form-control form-control-sm" name="gavilla_funda_sumatra" id="gavilla_funda_sumatra" pattern="^[0-9]+$" title="Ingrese solo números" maxlength="3">
+                                </div>
+                            </div>
+                            <div class="col-md-4" id="pesoFundaField" style="display: none;">
+                                <div class="form-group"><br>
+                                    <label for="peso_funda_sumatra" class="form-label">Peso por funda (Sumatra)</label>
+                                    <input type="number" class="form-control form-control-sm" name="peso_funda_sumatra" id="peso_funda_sumatra" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="Ocultar">
+                            <div class="col-md-4">
+                                <div class="form-group"><br>
+                                    <label for="prom_gavillas" class="form-label">Promedio de hojas por gavilla</label>
+                                    <input type="text" class="form-control form-control-sm" name="prom_gavillas" id="prom_gavillas" maxlength="3">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group"><br>
+                                    <label for="cant_gavillas_fundas" class="form-label">Cant. gavillas por fundas</label>
+                                    <input type="number" class="form-control form-control-sm" name="cant_gavillas_fundas" id="cant_gavillas_fundas" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group"><br>
+                                    <label for="cant_gavillas_paca" class="form-label">Cant. gavillas por paca</label>
+                                    <input type="" class="form-control form-control-sm" name="cant_gavillas_paca" id="cant_gavillas_paca" maxlength="3">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Campos para la variedad Sumatra tripa (ocultos al inicio) -->
+                        <div class="row">
+                            <div class="col-md-6" id="CantFundasPacaSumatraField" style="display: none;"><br>
+                                <div class="form-group">
+                                    <label for="cant_fundas_paca_sumatra" class="form-label">Cant. de fundas por paca</label>
+                                    <input type="text" class="form-control form-control-sm" name="cant_fundas_paca_sumatra" id="cant_fundas_paca_sumatra" pattern="^[0-9]+$" title="Ingrese solo números" maxlength="3">
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="CantGavillasPacaSumatraField" style="display: none;"><br>
+                                <div class="form-group">
+                                    <label for="cant_gavillas_paca_sumatra" class="form-label">Cant. de gavillas por paca</label>
+                                    <input type="text" class="form-control form-control-sm" name="cant_gavillas_paca_sumatra" id="cant_gavillas_paca_sumatra" pattern="^[0-9]+$" title="Ingrese solo números" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="prom_hojas_paca" class="form-label">Promedio hojas por paca</label>
+                                    <input type="text" class="form-control form-control-sm" name="prom_hojas_paca" id="prom_hojas_paca" pattern="^[0-9]+$" title="Ingrese solo números" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="cant_fundas_paca" class="form-label">Cantidad fundas por paca</label>
+                                    <input type="text" class="form-control form-control-sm" name="cant_fundas_paca"  id="cant_fundas_paca" pattern="^[0-9]+$" title="Ingrese solo números" readonly>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tamano" class="form-label">Tamaño</label>
+                                    <select class="form-select form-control-sm" name="tamano" required>
+                                        <option value="" disabled selected>Seleccione un tamaño</option>
+                                        <option value="INDT">INDT</option>
+                                        <% for (var i = 16; i <= 21; i++) { %>
+                                            <option value="<%= i %>"><%= i %></option>
+                                        <% } %>
+                                        <option value="Grande">Grande</option>
+                                        <option value="Mediano">Mediano</option>
+                                        <option value="Pequeño">Pequeño</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fecha_elaboracion" class="form-label">Fecha de elaboración</label>
+                                    <input type="date" class="form-control form-control-sm" name="fecha_elaboracion" id="fecha_elaboracion" value="<%= (new Date()).toISOString().substr(0,10) %>">
+                                </div>
+                            </div>
+                        </div>           
+                </form>      
+                        <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p id="errorMessage"></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                                       
+            </div>
+        </div>
+    </div>
+
+    <script src="/datos/variedad.js"></script>
+    <script src="/Script/CalculosTickets.js"></script>
+</body>
+</html> 

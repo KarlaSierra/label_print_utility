@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscar registro</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  
+  <style>
+    .color-btn {
+      background-color: #00a09d;
+    }
+
+    .color-head {
+      background-color: #875a7b;
+    }
+
+    label {
+      color: black;
+    }
+  </style>
+
+  <script src="https://unpkg.com/bwip-js"></script>
+</head>
+
+<body class="body">
+  <%- include('../navbar')%>
+    <div class="d-flex justify-content-center mt-5 text-white">
+      <div class="d-flex flex-column w-40 text-center bd-highlight mb-3 border border-2 rounded-3 ">
+        <div class="p-2 color-head text-white rounded-3 bd-highlight">
+          <h5 style="font-weight: bold;">Buscar tickets</h5>
+        </div>
+        <div class="p-5 bg-white rounded-3 bd-highlight">
+          <div class="row ">
+
+            <form method="GET" action="/tickets/resultados_busqueda">
+              <h2>
+                <label class="form-label text-black" style="font-weight: bold;font-size: 13px;" for="searchTerm">Ingrese el número de paca</label>
+              </h2><br>
+              <div class="col">
+                <input type="text" style="font-weight:bold; font-size: 12px;" class="form-control text-center" id="searchTerm" name="q" required>
+              </div>
+              <button type="submit" style="font-weight:bold; font-size: 12px;" class="btn mt-3 color-btn text-white">Buscar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('../footer') %> 
+</body>
+</html>

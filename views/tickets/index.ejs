@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickets Gavilla</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-6d50JhD5pZRa4+NTAeRoemHE0R5UikR6ta0fVHzq7EshTAdI5f8P2fp6Jw5o1fL4H" crossorigin="anonymous">
+    <style>
+
+        body {
+            font-size: 16px; 
+        }
+
+        .content-wrapper {
+            margin: 20px; /* Ajusta este valor según el margen deseado */
+        }
+
+        .color-btn {
+            background-color: #00a09d;
+        }
+
+        .color-head {
+            background-color: #875a7b;
+        }
+
+        table {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        th {
+            background-color: #875a7b;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        td:last-child {
+            text-align: center;
+        }
+
+        td:last-child a {
+            color: #875a7b;
+            text-decoration: none;
+        }
+
+        td:last-child a:hover {
+            text-decoration: underline;
+        }
+
+        .pagination-container {
+            font-family: Arial, sans-serif;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .pagination {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .page-item {
+            margin: 0 5px;
+        }
+
+        .page-link {
+            color: #333;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .page-link:hover {
+            background-color: #f5f5f5;
+        }
+
+        .page-item.active .page-link {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+
+        .page-item.disabled .page-link {
+            color: #999;
+            pointer-events: none;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-group .btn {
+            flex: 1;
+            margin: 0 5px;
+        }
+
+    </style>
+</head>
+
+<body class="body">
+    <%- include('../navbar')%>
+    <div class="container">   
+        <br><br>
+        <div class="d-flex justify-content-between">
+            <h5 class="text-left" style="color: dimgrey;">Etiquetas gavillas fundas</h5> 
+            <a style="background-color: #00a09d; color: white;" class="btn" href="/tickets/crear">
+                <i class="bi bi-pencil"></i> 
+                Crear
+            </a>
+        </div>
+        <br>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Número de paca</th>
+                    <th class="ordenar-descendente">Fecha de elaboración</th>
+                    <th>Clase</th>
+                    <th>Variedad</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <% for( let ticket=0; ticket < ticket1.length; ticket++ ) { %>
+                <tr>
+                    <td>
+                        <%=ticket1[ticket].n_paca%>
+                    </td>
+                    <td>
+                        <%=ticket1[ticket].fecha_elaboracion%>
+                    </td>
+                    <td>
+                        <%=ticket1[ticket].clase%>
+                    </td>
+                    <td>
+                        <%=ticket1[ticket].variedad%>
+                    </td>
+                    <td> 
+                        <div class="btn-group" role="group" aria-label="Horizontal button group">
+                            <form class="form-inline" method="get" action="/tickets/<%=ticket1[ticket].id%>" enctype="multipart/form-data">
+                                <button class="btn btn-secondary" type="submit">
+                                    <i class="bi bi-file-earmark-check"></i> Ver
+                                </button>
+                            </form>
+                            <form class="form-inline" method="get" action="/tickets/codigo-de-barras/<%=ticket1[ticket].id%>" enctype="multipart/form-data">
+                                <button class="btn btn-secondary" type="submit">
+                                    <i class="bi bi-file-earmark-pdf"></i> Imprimir
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+           
+        <div class="pagination-container d-flex justify-content-center align-items-center">
+        <ul class="pagination">
+
+            <% if (pageInfo.hasPreviousPage) { %>
+            <li class="page-item">
+                <a class="page-link" href="?page=<%= pageInfo.previousPage %>">
+                <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <% } else { %>
+            <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&laquo;</span>
+            </li>
+            <% } %>
+
+            <% for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) { %>
+            <% if (i === pageInfo.currentPage) { %>
+                <li class="page-item active">
+                <span class="page-link"><%= i %></span>
+                </li>
+            <% } else { %>
+                <li class="page-item">
+                <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                </li>
+            <% } %>
+            <% } %>
+
+            <% if (pageInfo.hasNextPage) { %>
+            <li class="page-item">
+                <a class="page-link" href="?page=<%= pageInfo.nextPage %>">
+                <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <% } else { %>
+            <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&raquo;</span>
+            </li>
+            <% } %>
+        </ul>
+</div>
+    </div>
+</body>
+</html>

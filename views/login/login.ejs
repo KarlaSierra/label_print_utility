@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="resources/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+  <style>
+    .color-btn {
+      background-color: #00a09d;
+    }
+
+    .color-head {
+      background-color: #875a7b;
+    }
+
+    /* Estilos para el formulario */
+    .login-form {
+      border: 1px solid #ccc; /* Borde de 1px de color gris */
+      border-radius: 10px; /* Bordes redondeados */
+      padding: 20px; /* Espacio de relleno interno */
+      margin-top: 60px; 
+      justify-content: center;
+    }
+
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2)),
+                  url('https://i0.wp.com/halfwheel.com/wp-content/uploads/2017/05/CamachoFactory_Honduras_2017_004.jpg?ssl=1') no-repeat center center fixed;
+      background-size: cover;
+      background-repeat: no-repeat;
+      text-transform: uppercase;
+      border-color: black;
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      overflow-x: hidden;
+      height: 699px; /* Ajusta la altura para llenar toda la ventana */
+    }
+  </style>
+
+</head>
+
+<body class="body">
+  <div class="d-flex justify-content-center mt-5 rounded-3 text-white">
+    <div class="d-flex flex-column w-25 text-center bd-highlight mb-3">
+        <div class="form-control login-form">
+        <div class="p-2 color-head text-white rounded-3 bd-highlight">
+          <h5 style="font-weight: bold;">Inicio de Sesión</h5>
+        </div>
+        <br>
+        <% if (message) { %>
+          <strong style="color: red;"><p><%= message %></p></strong>
+        <% } %>
+        <form action="/login" method="POST">
+          <label for="user" style="font-weight: bold; font-size: 13px;" class="mb-3">Nombre de usuario</label>
+          <input type="text" name="user" placeholder="User" class="form-control text-center mb-2"
+          style="font-weight: bold;font-size: 13px;" autofocus required maxlength="20">
+          <br>
+          <label for="password" style="font-weight: bold; font-size: 13px;" class="mb-3">Contraseña</label>
+          <input type="password" name="password" class="form-control text-center mb-2" placeholder="Password"
+            style="font-weight: bold;font-size: 13px;" required maxlength="25">
+          <br>
+          <input type="submit" class="btn color-btn text-white form-control" style="font-weight: bold; font-size: 14px;"
+            value="Ingresar">
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
