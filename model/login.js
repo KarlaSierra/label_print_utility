@@ -14,7 +14,7 @@ module.exports = {
     },
 
     obtener: function (con, funcion) {
-        con.query('SELECT * FROM label_print.users', (error, resultados) => {
+        con.query('SELECT * FROM label_print_utility.users', (error, resultados) => {
             if (error) {
                 return funcion(error, null);
             } else {
