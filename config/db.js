@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const con = mysql.createConnection({
-    host: '127.0.0.1',
-    database: 'label_print',
+    host: 'localhost',
+    database: 'label_print_utility',
     user: 'root',
-    password: ''
+    password: '123456789'
 });
 
 con.connect((err) => {
