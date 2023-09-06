@@ -4,7 +4,7 @@ var login = require('../model/login');
 module.exports = {
 
   index: function (req, res) {
-    res.render('inicio');
+    res.render('Inicio');
   },
 
   crear: function (req, res) {
