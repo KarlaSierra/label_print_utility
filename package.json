@@ -8,11 +8,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "barcode": "^0.1.0",
-    "bcrypt": "^5.1.0",
+    "barcode": "^0.0.4",
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "bootstrap-icons": "^1.10.5",
-    "bwip-js": "^4.0.0",
+    "bwip-js": "^4.1.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
     "ejs": "^3.1.9",
@@ -27,5 +27,14 @@
     "passport-local": "^1.0.0",
     "pdfkit": "^0.13.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KarlaSierra/label_print_utility.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KarlaSierra/label_print_utility/issues"
+  },
+  "homepage": "https://github.com/KarlaSierra/label_print_utility#readme",
+  "devDependencies": {},
   "description": ""
 }
